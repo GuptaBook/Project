@@ -75,23 +75,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
     <i class="fa fa-envelope icon"></i>
     <input class="input-field" type="email"  placeholder="Email" name="email" required>
   </div>
-    <script language = "Javascript">
-
-function emailcheck(str) {
-
-    var at="@"
-    var dot="."
-    var lat=str.indexOf(at)
-    var lstr=str.length
-    var ldot=str.indexOf(dot)
-    if (str.indexOf(at)==-1){
-        alert("Invalid E-mail ID")
-
-    return false
-}else
- return true
-}
-</script>
   <div class="input-container">
     <i class="fa fa-phone icon"></i>
     
