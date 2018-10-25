@@ -249,20 +249,18 @@ ul.horizontal-slide li[class*="col"]:first-child {
 					src="<c:url value='resources/images/uploadDir/${bookdetail.getBookid()}.png'/>" />
 			</div>
 			<div class="col-xs-5" style="border: 0px solid gray">
-				<!-- Datos del vendedor y titulo del producto -->
+				
 				<h3>${bookdetail.bookname}</h3>
 				<h6 class="title-price">Description</h6>
 				<h3 style="margin-top: 0px;">${bookdetail.bookdesc}</h3>
 
-				<!-- Precios -->
 				<h6 class="title-price">
 					<small>Price</small>
 				</h6>
 				<h3 style="margin-top: 0px;">RS. ${bookdetail.price }</h3>
 
-				<!-- Detalles especificos del producto -->
-<c:if test="${sessionScope.rolename=='ROLE_USER' }">
-<input type="hidden" name="bookid" value="${bookdetail.bookid}">
+    <c:if test="${sessionScope.rolename=='ROLE_USER' }">
+    <input type="hidden" name="bookid" value="${bookdetail.bookid}">
 				<div class="section" style="padding-bottom: 20px;">
 					<h6 class="title-attr">
 						<small>Quantity</small>
@@ -333,11 +331,8 @@ ul.horizontal-slide li[class*="col"]:first-child {
               </ul>
           
         </div>
-    </div></div>
-	
-	<!-- /related books -->
-	
-	
+    </div>
+    </div>
 	<%-- <ul>
 			<li><a href="FetchBookByIdServlet?id=${bookdetail.bookid}"> ${bookdetail.bookname}<br>${bookdetail.bookdesc}
 			<br>${bookdetail.price}<br><a href="" clas="btn btn-info">Add to cart</a>&nbsp; <a href="" class="btn btn-info">Buy Now</a>
@@ -376,7 +371,6 @@ ul.horizontal-slide li[class*="col"]:first-child {
 				<div class="panel-body">${cmt.content }</div>
 				<!-- /panel-body -->
 			</div>
-			<!-- /panel panel-default -->
 		</div>
 		<!-- /col-sm-5 --></c:forEach>>
 	</div>
