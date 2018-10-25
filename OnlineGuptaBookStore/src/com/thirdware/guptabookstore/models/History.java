@@ -1,6 +1,6 @@
 package com.thirdware.guptabookstore.models;
 
-public class history {
+public class History {
 	private int id;
 	private String bookname;
 	private int quantity;
