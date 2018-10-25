@@ -9,14 +9,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.thirdware.guptabookstore.dao.AuthorDao;
 import com.thirdware.guptabookstore.dao.BookDao;
+import com.thirdware.guptabookstore.dao.CartDao;
+import com.thirdware.guptabookstore.dao.CommentDao;
 import com.thirdware.guptabookstore.dao.SubjectDao;
 import com.thirdware.guptabookstore.daoimpl.AuthorDaoImpl;
 import com.thirdware.guptabookstore.daoimpl.BookDaoImpl;
+import com.thirdware.guptabookstore.daoimpl.CartDaoImpl;
+import com.thirdware.guptabookstore.daoimpl.CommentDaoImpl;
 import com.thirdware.guptabookstore.daoimpl.SubjectDaoImpl;
 import com.thirdware.guptabookstore.models.Book;
+import com.thirdware.guptabookstore.models.Comment;
+import com.thirdware.guptabookstore.models.Customer;
 
 /**
  * Servlet implementation class FetchBookByIdServlet
@@ -39,15 +46,22 @@ public class FetchBookByIdServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		int bid=Integer.parseInt(request.getParameter("id"));
+		HttpSession session=request.getSession();
+		String email=(String)session.getAttribute("email");
 		BookDao bookDao=new BookDaoImpl();
 		SubjectDao subDao=new SubjectDaoImpl();
 		AuthorDao authDao=new AuthorDaoImpl();
 		Book b=bookDao.fetchBookById(bid);
+		CommentDao commentDao=new CommentDaoImpl();
+		CartDao cartDao=new CartDaoImpl();
+		Customer cust=cartDao.getCustomer(email);
+		List<Comment> cmt=commentDao.getAll(b.getBookid());
 		List<Book> ls=subDao.getSubject(b.getSubid());
 		List<Book> la=authDao.getAuthor(b.getAuthid());
 		request.setAttribute("bookdetail", b);
 		request.setAttribute("listSub", ls);
 		request.setAttribute("listAuth", la);
+		request.setAttribute("listcmt", cmt);
 		RequestDispatcher rd=request.getRequestDispatcher("views/book/bookdetails.jsp");
 		rd.forward(request, response);
 		response.getWriter().append("Served at: ").append(request.getContextPath());

@@ -304,9 +304,10 @@ ul.horizontal-slide li[class*="col"]:first-child {
         <div class="row">
               <ul class="horizontal-slide">
               <c:forEach items="${listSub}" var="sub">
-              <c:if test="${sub.bookid!=subid && sub.bookid!=bookdetail.subid }">
+              <c:if test="${sub.bookid!=subid}">
+              <c:if test="${sub.bookid!=bookdetail.subid}">
                 <a href="FetchBookByIdServlet?id=${sub.bookid}"><li class="col-md-2"><img class="thumbnail" style="max-width: 100%;" src="<c:url value='resources/images/uploadDir/${sub.getBookid()}.png'/>"/>${sub.bookname}</li></a>
-              </c:if><c:set var="subid" value="${sub.bookid }"/></c:forEach>
+              </c:if></c:if><c:set var="subid" value="${sub.bookid }"/></c:forEach>
               </ul>
           </div>
     </div>
@@ -322,9 +323,10 @@ ul.horizontal-slide li[class*="col"]:first-child {
        
               <ul class="horizontal-slide">
               <c:forEach items="${listAuth}" var="auth">
-              <c:if test="${auth.bookid!=authid && auth.bookid!=bookdetail.authid}">
+              <c:if test="${auth.bookid!=authid}">
+              <c:if test="${auth.bookid!=bookdetail.authid}">
                 <a href="FetchBookByIdServlet?id=${auth.bookid}"><li class="col-md-2"><img class="thumbnail"style="max-width: 100%;" src="<c:url value='resources/images/uploadDir/${auth.getBookid()}.png'/>"/>${auth.bookname}</li></a>         
-              </c:if><c:set var="authid" value="${auth.bookid }"/>
+              </c:if></c:if><c:set var="authid" value="${auth.bookid }"/>
               </c:forEach>
               </ul>
           
@@ -339,17 +341,19 @@ ul.horizontal-slide li[class*="col"]:first-child {
 	<div class="row">
 	<div class="col-md-3"></div>
 	<div class="col-md-6">
+	<c:if test="${sessionScope.rolename=='ROLE_USER' }">
 	<c:url value="/CommentServlet" var="url"/>
 	<form action="${url }" method="post">
-		<b>User Comments:</b><br><textarea style="width: 140px; height: 50px;">
+	<input type="hidden" value="${bookdetail.bookid }" name="id">
+		<b>User Comments:</b><br><textarea name="cmt" style="width: 140px; height: 50px;">
 		
 		</textarea>&nbsp; <input type="submit" value="Post Comment">
 	</form>
-	
+	</c:if>
 	</div>
 	</div><hr>
 	<div class="row">
-	<div class="col-md-1"></div>
+	<c:forEach items="${listcmt}" var="cmt">
 		<div class="col-sm-1">
 			<div class="thumbnail">
 				<img class="img-responsive user-photo"
@@ -362,14 +366,13 @@ ul.horizontal-slide li[class*="col"]:first-child {
 		<div class="col-sm-5">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<strong>myusername</strong> <span class="text-muted">commented
-						5 days ago</span>
+					<strong>${cmt.customername}</strong> <span class="text-muted">commented	</span>
 				</div>
-				<div class="panel-body">Panel content</div>
+				<div class="panel-body">${cmt.content }</div>
 				<!-- /panel-body -->
 			</div>
 		</div>
-		<!-- /col-sm-5 -->
+		<!-- /col-sm-5 --></c:forEach>>
 	</div>
 
 </body>

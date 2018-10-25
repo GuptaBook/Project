@@ -20,9 +20,9 @@ public class CommentDaoImpl implements CommentDao {
 			System.out.println("Not Connected, Please check the database details");
 		} else {
 			try {
-				String query = "insert into comment(content,customername,customerid,bookid) values(?,?,?,?)";
+				String query = "insert into comment(content,cname,cid,bookid) values(?,?,?,?)";
 				PreparedStatement psmt = con.prepareStatement(query);
-				comment = new Comment();
+//				comment = new Comment();
 				psmt.setString(1, comment.getContent());
 				psmt.setString(2, comment.getCustomername());
 				psmt.setInt(3, comment.getCustomerId());
@@ -54,17 +54,19 @@ public class CommentDaoImpl implements CommentDao {
 			return null;
 		} else {
 			try {
-				String query = "select * from comment where bookid=?";
+				System.out.println("comment fetch");
+				String query = "select commentid,content,cname,cid,bookid from comment where bookid=?";
 				PreparedStatement psmt = con.prepareStatement(query);
 				psmt.setInt(1, id);
 				ResultSet result = psmt.executeQuery();
 				List<Comment> ls = new ArrayList<>();
 				while (result.next()) {
 					Comment comment = new Comment();
+					comment.setId(result.getInt(1));
 					comment.setContent(result.getString(2));
-					comment.setCustomername(result.getString(5));
-					comment.setCustomerId(result.getInt(3));
-					comment.setBookid(result.getInt(4));
+					comment.setCustomername(result.getString(3));
+					comment.setCustomerId(result.getInt(4));
+					comment.setBookid(result.getInt(5));
 					ls.add(comment);
 				}
 				result.close();
