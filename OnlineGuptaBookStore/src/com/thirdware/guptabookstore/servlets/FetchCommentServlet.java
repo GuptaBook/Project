@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.thirdware.guptabookstore.dao.CommentDao;
 import com.thirdware.guptabookstore.daoimpl.CommentDaoImpl;
@@ -37,6 +38,8 @@ public class FetchCommentServlet extends HttpServlet {
 			throws ServletException, IOException {
 		int id=Integer.parseInt(request.getParameter("id"));
 		CommentDao commentObj = new CommentDaoImpl();
+		HttpSession session=request.getSession();
+		String email=(String)session.getAttribute("email");
 		List<Comment> commentList = commentObj.getAll(id);
 
 		request.setAttribute("commentList", commentList);

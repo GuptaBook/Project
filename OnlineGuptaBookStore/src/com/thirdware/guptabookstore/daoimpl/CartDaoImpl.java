@@ -227,6 +227,11 @@ public class CartDaoImpl implements CartDao {
 				ResultSet rs=psmt.executeQuery();
 				while(rs.next()){
 					cust.setCid(rs.getInt(1));
+					cust.setCname(rs.getString(2));
+					cust.setEmail(rs.getString(3));
+					cust.setPhoneno(rs.getString(4));
+					cust.setPassword(rs.getString(5));
+					cust.setRoleid(rs.getInt(6));
 				}
 				return cust;
 			} catch (Exception e) {
