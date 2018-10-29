@@ -310,15 +310,10 @@ label.star:before {
   font-family: FontAwesome;
 }
 </style>
-<style>
-.checked {
-    color: red;
-}
-</style>
 <link href="http://www.cssscript.com/wp-includes/css/sticky.css" rel="stylesheet" type="text/css">
 <title>${bookdetail.bookname}details</title>
 </head>
-<body><h3 align="center" style="color:green">${msg }</h3>
+<body>
 <form action="CartServlet" method="post">
 	<div class="container">
 		<div class="row">
@@ -417,16 +412,12 @@ label.star:before {
 			</a><br></li>
 	</ul> --%><hr/>
 	<!-- Rating   -->
-	<div class="container">
 	
 	<c:if test="${sessionScope.email!=null}">
-	<c:if test="${not empty rate }">
-	<h1>Star Rating</h1>
+	<c:if test="${empty rate }">
  <div class="cont">
- <form action="${url}" method="post">   
-  <div class="stars"><c:url value="/InsertRatingServlet" var="url"/>
-       
-    <input type="hidden" value="${bookdetail.bookid }" name="bookid">
+  <div class="stars">
+    <form action="">      
       <input class="star star-5" id="star-5-2" value="5" type="radio" name="star"/>
       <label class="star star-5" title="5-star" for="star-5-2"></label>
       <input class="star star-4" id="star-4-2" type="radio" value="4" name="star"/>
@@ -437,24 +428,10 @@ label.star:before {
       <label class="star star-2" title="2-star" for="star-2-2"></label>
       <input class="star star-1" value="1" id="star-1-2" type="radio" name="star"/>
       <label class="star star-1" title="1-star" for="star-1-2"></label>
-      
-    
-  </div><input type="submit" value="rate"></form>
+    </form>
+  </div>
 </div>
 	</c:if></c:if>
-	</div><hr>
-	<div class="container"><h3 style="">Rating<br>${listracting } users rated.</h3>
-	<c:if test="${not empty listrating }">
-	<c:forEach begin="1" end="${listrating }" var="ch">
-	<span class="fa fa-star checked"></span>	
-	</c:forEach>
-	</c:if>	
-	<c:if test="${not empty unchecked }">
-	<c:forEach begin="1" end="${unchecked }" var="uch">
-	<span class="fa fa-star"></span>	
-	</c:forEach>
-	</c:if>	
-	</div>
 	<!-- /Rating -->
 	<hr/>>
 	<h3 align="center">Comments</h3>

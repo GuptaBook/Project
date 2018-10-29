@@ -21,7 +21,7 @@
       <a class="navbar-brand" href="FetchAllAuthoServlet">Gupta Book Store</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="<c:url value='FetchAllAuthoServlet'/>">Home</a></li>
+      <li class="active"><a href="<c:url value='/FetchAllAuthoServlet'/>">Home</a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Author <span class="caret"></span></a>
         <ul class="dropdown-menu">
         <c:forEach items="${sessionScope.listAuthor}" var="auth">
@@ -35,7 +35,7 @@
           <li><a href="<c:url value='/FetchBookBySubject?id=${sub.subid}'/>" >${sub.subname}</a></li>
         </c:forEach>        
         </ul>
-      </li><c:url value="FetchAllBookServlet" var="url"/>
+      </li><c:url value="/FetchAllBookServlet" var="url"/>
       <li><a href="${url}">Books</a></li>
       <c:if test="${sessionScope.email!=null }">
     <c:if test="${sessionScope.rolename=='ROLE_EMPLOYEE' }">
@@ -47,6 +47,7 @@
       <c:if test="${sessionScope.email!=null }">
     <c:if test="${sessionScope.rolename=='ROLE_ADMIN' }">
     <li><a href="<c:url value='/Fetch'/>">Book Approval or Reject</a></li>
+    <li><a href="<c:url value='/views/report.jsp'/>">Revenue Report</a></li>
     <li><a href="<c:url value='/views/emp/EmpRegis.jsp'/>">Employee Registratoin</a></li>
     </c:if>
     </c:if>

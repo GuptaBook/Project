@@ -74,7 +74,7 @@ public class InsertBookServlet extends HttpServlet {
 			System.out.println("Description: " + description);
 
 			// Gets absolute path to root directory of web app.
-			String appPath = "C:/projects/OnlineGuptaBookStore/OnlineGuptaBookStore/WebContent/resources/images/";
+			String appPath = "C:/Project/Project/OnlineGuptaBookStore/WebContent/resources/images";
 			appPath = appPath.replace('\\', '/');
 
 			// The directory to save uploaded file

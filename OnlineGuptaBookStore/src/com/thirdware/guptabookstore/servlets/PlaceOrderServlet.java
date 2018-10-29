@@ -1,6 +1,8 @@
 package com.thirdware.guptabookstore.servlets;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.thirdware.guptabookstore.dao.CartDao;
+import com.thirdware.guptabookstore.dao.HistoryDao;
 import com.thirdware.guptabookstore.daoimpl.CartDaoImpl;
+import com.thirdware.guptabookstore.daoimpl.HistoryDaoImpl;
 import com.thirdware.guptabookstore.models.Book;
 import com.thirdware.guptabookstore.models.Cart;
+import com.thirdware.guptabookstore.models.History;
 
 /**
  * Servlet implementation class PlaceOrderServlet
@@ -42,18 +47,30 @@ public class PlaceOrderServlet extends HttpServlet {
 		HttpSession session=request.getSession();
 		String email=(String) session.getAttribute("email");
 		List<Cart> cart=cartDao.getCart(email);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+		   LocalDateTime now = LocalDateTime.now();  
+		HistoryDao historyDao=new HistoryDaoImpl();
 		for(Cart c:cart){
 			Book b=new Book();
 			b.setBookid(c.getBookId());
 			Book book=cartDao.getBookDetails(b);
 			qunt=book.getQuantity();
 			System.out.println("qnt "+qunt+" "+book.getQuantity());
+			History history = new History();
 			if(qunt>=c.getQuantity()){
 				System.out.println("quantity "+c.getQuantity());
 				qunt-=c.getQuantity();
 				book.setQuantity(qunt);
 				book.setBookid(c.getBookId());
 				cartDao.updateBookQunatity(book);
+				history.setBookname(c.getBookName());
+				history.setQuantity(c.getQuantity());
+				history.setPrice(c.getPrice());
+				history.setCid(c.getCustomerId());
+				history.setBookid(c.getBookId());
+				history.setCustemail(c.getCustomername());
+				history.setHisdate(dtf.format(now));
+				historyDao.insertHistory(history);
 				cartDao.deleteCart(c.getCartId());
 			}
 			else{
@@ -64,9 +81,11 @@ public class PlaceOrderServlet extends HttpServlet {
 				rd.forward(request, response);
 			}
 			}
-		String msg="Thank you for shopping!";
-		request.setAttribute("msg", msg);
-		response.sendRedirect("views/thankyoupage.jsp");
+	
+			String msg="Thank you for shopping!";
+			request.setAttribute("msg", msg);
+			response.sendRedirect("views/thankyoupage.jsp");
+		
 	}
 
 	/**

@@ -11,13 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.util.collections.SynchronizedStack;
-
 import com.thirdware.guptabookstore.dao.AuthorDao;
+import com.thirdware.guptabookstore.dao.BookDao;
 import com.thirdware.guptabookstore.dao.SubjectDao;
 import com.thirdware.guptabookstore.daoimpl.AuthorDaoImpl;
+import com.thirdware.guptabookstore.daoimpl.BookDaoImpl;
 import com.thirdware.guptabookstore.daoimpl.SubjectDaoImpl;
 import com.thirdware.guptabookstore.models.Author;
+import com.thirdware.guptabookstore.models.Book;
 import com.thirdware.guptabookstore.models.Subject;
 
 /**
@@ -44,6 +45,8 @@ public class FetchAllAuthoServlet extends HttpServlet {
 		List<Author> la=authorDao.getallAuthor();
 		SubjectDao subjectDao = new SubjectDaoImpl();
 		List<Subject> ls = subjectDao.getAllSubject();
+		BookDao bookDao=new BookDaoImpl();
+		List<Book> lb=bookDao.getRecentBook();
 		request.setAttribute("listSubject", ls);
 		request.setAttribute("listAuthor", la);
 		for(Subject s:ls)
@@ -53,6 +56,7 @@ public class FetchAllAuthoServlet extends HttpServlet {
 		HttpSession session=request.getSession();
 		session.setAttribute("listSubject",ls);
 		session.setAttribute("listAuthor",la);
+		request.setAttribute("booklist", lb);
 		RequestDispatcher rd = request.getRequestDispatcher("views/home.jsp");
 		rd.forward(request, response);	
 		response.getWriter().append("Served at: ").append(request.getContextPath());

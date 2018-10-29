@@ -385,4 +385,37 @@ public class BookDaoImpl implements BookDao {
 				}
 		return null;
 	}
+
+	@Override
+	public List<Book> getRecentBook() {
+		// TODO Auto-generated method stub
+		Connection con = connectionProvider.CONN();
+		if (con == null) {
+			System.out.println("Not connected, Please check the connection!");
+			return null;
+		}
+		try {
+			ArrayList<Book> ls=new ArrayList<>();
+			String query = "select * from book where bookstatus=1 and bookid>(select max(bookid)-10 from book) order by bookid desc";
+			psmt=con.prepareStatement(query);
+			ResultSet result=psmt.executeQuery();
+			while(result.next()){
+				Book b=new Book();
+				b.setBookid(result.getInt(1));
+				b.setBookname(result.getString(2));
+				b.setBookdesc(result.getString(3));
+				b.setQuantity(result.getInt(4));
+				b.setPrice(result.getFloat(5));
+				b.setSubid(result.getInt(6));
+				b.setAuthid(result.getInt(7));
+				ls.add(b);				
+			}
+			psmt.close();
+			con.close();
+			return ls;
+			}catch(Exception e){
+				System.out.println(e);
+				}
+		return null;
+	}
 }

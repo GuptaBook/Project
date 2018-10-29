@@ -15,15 +15,18 @@ import com.thirdware.guptabookstore.dao.AuthorDao;
 import com.thirdware.guptabookstore.dao.BookDao;
 import com.thirdware.guptabookstore.dao.CartDao;
 import com.thirdware.guptabookstore.dao.CommentDao;
+import com.thirdware.guptabookstore.dao.RatingDao;
 import com.thirdware.guptabookstore.dao.SubjectDao;
 import com.thirdware.guptabookstore.daoimpl.AuthorDaoImpl;
 import com.thirdware.guptabookstore.daoimpl.BookDaoImpl;
 import com.thirdware.guptabookstore.daoimpl.CartDaoImpl;
 import com.thirdware.guptabookstore.daoimpl.CommentDaoImpl;
+import com.thirdware.guptabookstore.daoimpl.RatingDaoImpl;
 import com.thirdware.guptabookstore.daoimpl.SubjectDaoImpl;
 import com.thirdware.guptabookstore.models.Book;
 import com.thirdware.guptabookstore.models.Comment;
 import com.thirdware.guptabookstore.models.Customer;
+import com.thirdware.guptabookstore.models.Rating;
 
 /**
  * Servlet implementation class FetchBookByIdServlet
@@ -62,6 +65,26 @@ public class FetchBookByIdServlet extends HttpServlet {
 		request.setAttribute("listSub", ls);
 		request.setAttribute("listAuth", la);
 		request.setAttribute("listcmt", cmt);
+		RatingDao ratingDao=new RatingDaoImpl();
+		Rating lr=ratingDao.fetchRating(bid);
+		float ratingCum=(lr.getRating()/lr.getId());
+		float checked=5-ratingCum;
+		int cur,uncur;
+		cur=(int) ratingCum;
+		uncur=(int) checked;
+		
+		lr.setRating(ratingCum);
+		request.setAttribute("listrating", cur);
+		request.setAttribute("unchecked", uncur);
+		System.out.println(ratingDao.getRatingById(email,bid));
+		if(ratingDao.getRatingById(email,bid)){
+			String rated=null;
+			request.setAttribute("rate", rated);
+		}else{
+			String rated="not rated this user";
+			request.setAttribute("rate", rated);
+		}
+		request.setAttribute("msg", request.getAttribute("msg"));
 		RequestDispatcher rd=request.getRequestDispatcher("views/book/bookdetails.jsp");
 		rd.forward(request, response);
 		response.getWriter().append("Served at: ").append(request.getContextPath());

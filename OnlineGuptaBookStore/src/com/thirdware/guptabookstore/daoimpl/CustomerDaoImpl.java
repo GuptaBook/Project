@@ -23,6 +23,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			String query="insert into customer(cid,cname,email,phoneno,roleid,password) values(?,?,?,?,?,?)";
 			try
 			{
+				System.out.println("entering into daoimpl");
 				PreparedStatement pstmt=con.prepareStatement(query);
 				pstmt.setInt(1, getMaxId()+1);
 				pstmt.setString(2,customer.getCname());

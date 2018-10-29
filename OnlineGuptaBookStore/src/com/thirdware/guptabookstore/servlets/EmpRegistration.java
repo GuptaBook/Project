@@ -56,7 +56,7 @@ public class EmpRegistration extends HttpServlet {
 		String cname=request.getParameter("uname");
 		String email=request.getParameter("email");
 		String phoneno=request.getParameter("phoneno");
-		String roleid=request.getParameter("roleid");
+		//String roleid=request.getParameter("roleid");
 		String password=request.getParameter("password");
 		CustomerDao customerDao=new CustomerDaoImpl();
 		Customer c=customerDao.customerLogin(email);

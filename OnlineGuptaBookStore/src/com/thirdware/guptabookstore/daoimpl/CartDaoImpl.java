@@ -73,6 +73,7 @@ public class CartDaoImpl implements CartDao {
 					cart.setCustomerId(result.getInt(5));
 					cart.setQuantity(result.getInt(3));
 					cart.setPrice(result.getFloat(4));
+					cart.setCustomername(result.getString(7));
 					ls.add(cart);
 				}
 				result.close();

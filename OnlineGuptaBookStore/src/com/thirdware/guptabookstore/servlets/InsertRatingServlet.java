@@ -1,7 +1,6 @@
 package com.thirdware.guptabookstore.servlets;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,21 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.thirdware.guptabookstore.dao.CartDao;
-import com.thirdware.guptabookstore.daoimpl.CartDaoImpl;
-import com.thirdware.guptabookstore.models.Cart;
+import com.thirdware.guptabookstore.dao.RatingDao;
+import com.thirdware.guptabookstore.daoimpl.RatingDaoImpl;
+import com.thirdware.guptabookstore.models.Rating;
 
 /**
- * Servlet implementation class FetchCartServlet
+ * Servlet implementation class InsertRatingServlet
  */
-@WebServlet("/FetchCartServlet")
-public class FetchCartServlet extends HttpServlet {
+@WebServlet("/InsertRatingServlet")
+public class InsertRatingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FetchCartServlet() {
+    public InsertRatingServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,15 +33,7 @@ public class FetchCartServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CartDao cartDao = new CartDaoImpl();
-		HttpSession session=request.getSession();
-		String email=(String)session.getAttribute("email");
-		System.out.println(email);
-		List<Cart> cartList = cartDao.getCart(email);
-		request.setAttribute("cartList", cartList);
-		request.setAttribute("error", request.getAttribute("error"));
-		RequestDispatcher rd = request.getRequestDispatcher("views/cart/cart.jsp");
-		rd.forward(request, response);
+		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -51,6 +42,21 @@ public class FetchCartServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		float r=Float.parseFloat(request.getParameter("star"));
+		System.out.println(r);
+		int bookid=Integer.parseInt(request.getParameter("bookid"));
+		HttpSession session=request.getSession();
+		String email=(String) session.getAttribute("email");
+		RatingDao ratingDao=new RatingDaoImpl();
+		Rating rating=new Rating();
+		rating.setBookid(bookid);
+		rating.setRating(r);
+		rating.setCemail(email);
+		ratingDao.insertRating(rating);
+		String msg="Rated successfully!";
+		request.setAttribute("msg", msg);
+		RequestDispatcher rd=request.getRequestDispatcher("FetchBookByIdServlet?id="+bookid);
+		rd.forward(request, response);
 		doGet(request, response);
 	}
 
