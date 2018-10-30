@@ -421,10 +421,10 @@ label.star:before {
 	
 	<c:if test="${sessionScope.email!=null}">
 	<c:if test="${not empty rate }">
-	<h1>Star Rating</h1>
+	<h1>Star Rating</h1><c:url value="/InsertRatingServlet" var="url"/>
  <div class="cont">
  <form action="${url}" method="post">   
-  <div class="stars"><c:url value="/InsertRatingServlet" var="url"/>
+  <div class="stars">
        
     <input type="hidden" value="${bookdetail.bookid }" name="bookid">
       <input class="star star-5" id="star-5-2" value="5" type="radio" name="star"/>
